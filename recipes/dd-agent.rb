@@ -29,9 +29,14 @@ agent_action = node['datadog']['agent_start'] ? :start : :stop
 # Set the correct config file
 agent_config_file = ::File.join(node['datadog']['config_dir'], 'datadog.conf')
 
+
 # Make sure the config directory exists
-directory "#{node['datadog']['config_dir']}" do
-  unless node['platform_family'] == 'windows'
+directory node['datadog']['config_dir'] do
+  if node['platform_family'] == 'windows'
+    owner 'Administrators'
+    rights :read, 'Users'
+    rights :full_control, 'Administrators'
+  else
     owner 'root'
     group 'root'
     mode 0755
@@ -46,7 +51,11 @@ end
 raise "Add a ['datadog']['api_key'] attribute to configure this node's Datadog Agent." if node['datadog'] && node['datadog']['api_key'].nil?
 
 template agent_config_file do
-  unless node['platform_family'] == 'windows'
+  if node['platform_family'] == 'windows'
+    owner 'Administrators'
+    rights :read, 'Users'
+    rights :full_control, 'Administrators'
+  else
     owner 'root'
     group 'root'
     mode 0644
@@ -59,7 +68,7 @@ end
 
 # Common configuration
 service 'datadog-agent' do
-  service_name "#{node['datadog']['agent_name']}"
+  service_name node['datadog']['agent_name']
   action [:enable, agent_action]
   if node['platform_family'] == 'windows'
     supports :restart => true, :start => true, :stop => true

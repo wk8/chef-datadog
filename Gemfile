@@ -12,7 +12,9 @@ end
 
 group :test do
   gem 'berkshelf', '~> 3.1'
-  gem 'chefspec', '~> 4.2'
+  # using this ref so that chefspec doesn't fail when the `rights` attribute is set on the directory resource
+  # FIXME: as soon as the chefspec release following 4.2.0 is out
+  gem 'chefspec', :github => 'sethvargo/chefspec', :ref => '9bb7a6'
   gem 'coveralls', '~> 0.7.1', require: false
   gem 'foodcritic', '~> 4.0.0'
   gem 'rake', '>= 10.2'
