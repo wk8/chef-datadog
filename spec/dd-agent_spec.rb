@@ -1,5 +1,12 @@
 require 'spec_helper'
 
+module EnvVar
+  def set_env_var(name, value)
+    allow(ENV).to receive(:[])
+    allow(ENV).to receive(:[]).with(name).and_return(value)
+  end
+end
+
 shared_examples_for 'datadog-agent service' do
   it 'enables the datadog-agent service' do
     expect(@chef_run).to enable_service 'datadog-agent'
@@ -30,11 +37,11 @@ shared_examples_for 'common windows resources' do
   it_behaves_like 'datadog-agent service'
 
   it 'ensures the Datadog config directory exists' do
-    expect(@chef_run).to create_directory "#{ENV['ProgramData']}/Datadog"
+    expect(@chef_run).to create_directory 'C:\ProgramData/Datadog'
   end
 
   it 'drops an agent config file' do
-    expect(@chef_run).to create_template "#{ENV['ProgramData']}/Datadog/datadog.conf"
+    expect(@chef_run).to create_template 'C:\ProgramData/Datadog/datadog.conf'
   end
 end
 
@@ -103,6 +110,8 @@ shared_examples_for 'version set below 4.x' do
 end
 
 describe 'datadog::dd-agent' do
+  include EnvVar
+
   context 'no version set' do
     # This recipe needs to have an api_key, otherwise `raise` is called.
     # It also depends on the version of Python present on the platform:
@@ -202,7 +211,9 @@ describe 'datadog::dd-agent' do
     end
 
     context 'on Windows' do
-      before(:all)  do
+      # Using :each instead of :all to allow stubbing ENV
+      before(:each) do
+        set_env_var('ProgramData', 'C:\ProgramData')
         @chef_run = ChefSpec::SoloRunner.new(
           :platform => 'windows',
           :version => '2012R2'
