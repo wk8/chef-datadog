@@ -25,4 +25,5 @@ group :integration do
   gem 'kitchen-vagrant'
   gem 'test-kitchen', '~> 1.4.0'
   gem 'travis-lint'
+  gem 'serverspec', '~> 2.18.0'
 end

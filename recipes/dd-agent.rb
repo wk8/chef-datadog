@@ -29,7 +29,6 @@ agent_action = node['datadog']['agent_start'] ? :start : :stop
 # Set the correct config file
 agent_config_file = ::File.join(node['datadog']['config_dir'], 'datadog.conf')
 
-
 # Make sure the config directory exists
 directory node['datadog']['config_dir'] do
   if node['platform_family'] == 'windows'
