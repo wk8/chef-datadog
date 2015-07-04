@@ -5,7 +5,6 @@ AllCops:
   Exclude:
     - 'spec/**/*' # ignore spec tests for now
     - 'vendor/**/*' # ignore non-local files
-    - Guardfile
 
 # We like longer lines
 Metrics/LineLength:

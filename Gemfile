@@ -3,11 +3,10 @@ source 'https://rubygems.org'
 
 group :development do
   gem 'emeril', '~> 0.8.0'
-  gem 'guard', '>= 2.6'
-  gem 'guard-foodcritic', '~> 1.0.3'
-  gem 'guard-kitchen'
-  gem 'guard-rspec'
-  gem 'guard-rubocop', '>= 1.1'
+  gem 'guard', '~> 2.12.7'
+  gem 'guard-foodcritic', '~> 1.1.1'
+  gem 'guard-rspec', '~> 4.6.0'
+  gem 'guard-rubocop', '~> 1.2.0'
 end
 
 group :test do
