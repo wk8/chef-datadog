@@ -226,6 +226,16 @@ suites:
               - kitchen
               - sink
 
+- name: datadog_filebeat
+  run_list:
+    - recipe[datadog::filebeat]
+  attributes:
+    datadog:
+      <<: *DATADOG
+      filebeat:
+        instances:
+          - registry_file_path: /var/lib/filebeat/registry
+
 - name: datadog_fluentd
   run_list:
     - recipe[datadog::fluentd]
