@@ -21,7 +21,13 @@ describe file(AGENT_CONFIG) do
     expected = {
       'instances' => [
         {
-          'registry_file_path' => '/var/lib/filebeat/registry'
+          'registry_file_path' => '/var/lib/filebeat/registry',
+          'http_profiler' => {
+            'host' => 'localhost',
+            'port' => 2828,
+            'only_metrics' => ['^filebeat', '^publish\.events$'],
+            'timeout' => 2
+          }
         }
       ],
       'init_config' => nil

@@ -235,6 +235,13 @@ suites:
       filebeat:
         instances:
           - registry_file_path: /var/lib/filebeat/registry
+            http_profiler:
+              host: localhost
+              port: 2828
+              only_metrics:
+                - ^filebeat
+                - ^publish\.events$
+              timeout: 2
 
 - name: datadog_fluentd
   run_list:
