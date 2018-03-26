@@ -1,0 +1,25 @@
+instances:
+<% @instances.each do |instance| -%>
+  - registry_file_path: <%= instance['registry_file_path'] %>
+    <% profiler = instance['http_profiler']
+    unless profiler.nil? -%>
+    http_profiler:
+      port: <%= profiler['port'] %>
+      <% unless profiler['host'].nil? -%>
+      host: <%= profiler['host'] %>
+      <% end -%>
+      <% unless profiler['timeout'].nil? -%>
+      host: <%= profiler['timeout'] %>
+      <% end -%>
+      <% only_metrics = profiler['only_metrics']
+      unless only_metrics.nil? or only_metrics.empty? -%>
+      only_metrics:
+        <% only_metrics.each do |regex| -%>
+        - <%= regex %>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+<% end -%>
+
+# Nothing to configure here
+init_config:
